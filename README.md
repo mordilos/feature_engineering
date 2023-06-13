@@ -62,10 +62,10 @@ Basically, this project is a link in the chain of a complete ML project and it p
   }
   ```
 
-### 4. POST /features
+### 4. POST /features_file
 
 - Description: Automatic feature extraction for data given in json file. 
-- URL: `http://localhost:8000/features`
+- URL: `http://localhost:8000/features_file`
 - Method: `POST`
 - Request Body:
   ```json
@@ -75,6 +75,46 @@ Basically, this project is a link in the chain of a complete ML project and it p
   }
   ```
   - `file` (required): Path to the JSON file containing user data.
+  - `feature_selection` (optional): List of strings specifying methods to filter the data, [highly_null_features, single_value_features, highly_correlated_features]<br /> (the user can choose between 0 and 3 values) based on https://featuretools.alteryx.com/en/stable/guides/feature_selection.html
+- Response:
+  ```json
+  {
+    "feature_matrix": "<extracted-feature-matrix>"
+  }
+  ```
+  - `feature_matrix`: JSON representation of the extracted feature matrix.
+
+
+### 5. POST /features_json
+
+- Description: Automatic feature extraction for data given in json form. 
+- URL: `http://localhost:8000/features_json`
+- Method: `POST`
+- Request Body:
+  ```json
+  {
+  "data": [
+    {
+      "customer_ID": "string",
+      "loans": [
+        {
+          "customer_ID": "string",
+          "loan_date": "string",
+          "amount": "string",
+          "fee": "string",
+          "loan_status": "string",
+          "term": "string",
+          "annual_income": "string"
+        }
+      ]
+    }
+  ],
+  "feature_selection": [
+    "string"
+  ]
+}
+  ```
+  - `data` (required): data in json format
   - `feature_selection` (optional): List of strings specifying methods to filter the data, [highly_null_features, single_value_features, highly_correlated_features]<br /> (the user can choose between 0 and 3 values) based on https://featuretools.alteryx.com/en/stable/guides/feature_selection.html
 - Response:
   ```json
