@@ -5,26 +5,36 @@ Basically, this project is a link in the chain of a complete ML project and it p
 
 ## Installation
 
-### 1. Download the project (Github)
+### Easy Install: 
+1. Clone the repo: `git clone https://github.com/mordilos/feature_engineering.git`
+2. Navigate to the repo dir: `cd feature_engineering`
+3. Use the compose.yml to build and run the app: `docker-compose -f compose.yml up`
 
-1. Clone the repository: `git clone https://github.com/your-username/your-repo.git`
-2. Navigate to the project directory: `cd your-repo`.<br /> Now you can choose your next step.
-   1. Install the dependencies: `pip install -r requirements.txt`
+
+### Alternative Install:
+
+1. Clone the repository: `git clone https://github.com/mordilos/feature_engineering.git`
+2. Navigate to the project directory: `cd feature_engineering`<br /> Now you can choose your next step.
+   1. Locally install everything
+      1. Create new venv: `python3 -m venv venv_name`
+      2. Activate the venv: `source venv_name/bin/activate`
+      3. Install the dependencies: `pip install -r requirements.txt`
+      4. Start the FastAPI server: `python src/main.py`
+      5. Access the endpoints using a web browser or an API client.
+      6. You can also run the tests that are in the test folder in `test_main.py`.
    2. Use the Dockerfile to build the image<br />`docker build -t feature_engineering_image .`<br /> and then create and run the container<br />`docker run -d --name fe_container -p 8000:8000 feature_engineering_image`
-   3. Use the compose.yml to build the container.<br /> `docker-compose build`<br />then start it<br /> `docker-compose up`
 
-### 2. Download the Container (Docker Hub)
-  1. 
-
-## Usage (only if you choose not to run the app in a container)
-
-1. Activate the venv: `source bin/activate`
-2. Start the FastAPI server: `python src/main.py`
-2. Access the endpoints using a web browser or an API client.
 
 ## Endpoints
 
-### 1. GET / (Root)
+### 1. GET /docs
+
+- Description: Returns the built-in swagger documentation.
+- URL: `http://localhost:8000/docs`
+- Method: `GET`
+
+
+### 2. GET / (Root)
 
 - Description: Returns all the available endpoints of the app.
 - URL: `http://localhost:8000/`
@@ -40,7 +50,7 @@ Basically, this project is a link in the chain of a complete ML project and it p
   }
   ```
 
-### 2. GET /status
+### 3. GET /status
 
 - Description: Returns the status of the application.
 - URL: `http://localhost:8000/status`
@@ -52,7 +62,7 @@ Basically, this project is a link in the chain of a complete ML project and it p
   }
   ```
 
-### 3. POST /features
+### 4. POST /features
 
 - Description: Automatic feature extraction for data given in json file. 
 - URL: `http://localhost:8000/features`
@@ -65,7 +75,7 @@ Basically, this project is a link in the chain of a complete ML project and it p
   }
   ```
   - `file` (required): Path to the JSON file containing user data.
-  - `feature_selection` (optional): List of strings specifying methods to filter the data, [highly_null_features, single_value_features, highly_correlated_features] (the user can choose between 0 and 3 values) based on https://featuretools.alteryx.com/en/stable/guides/feature_selection.html
+  - `feature_selection` (optional): List of strings specifying methods to filter the data, [highly_null_features, single_value_features, highly_correlated_features]<br /> (the user can choose between 0 and 3 values) based on https://featuretools.alteryx.com/en/stable/guides/feature_selection.html
 - Response:
   ```json
   {
@@ -78,10 +88,11 @@ Basically, this project is a link in the chain of a complete ML project and it p
 
 1. Start the FastAPI server.
 2. Open a web browser or an API client.
-3. Send a GET request to `http://localhost/` to get all available endpoints.
-4. Send a GET request to `http://localhost/status` to check the application status.
-5. Send a POST request to `http://localhost/features` with a JSON body containing the path to the data file and optional keywords to extract features.
-6. Receive the extracted feature matrix in the response.
+3. Go to `http://localhost:8000/docs` for the built-in swagger documentation. From there you can test all the other endpoints.
+4. Send a GET request to `http://localhost:8000/` to get all available endpoints.
+5. Send a GET request to `http://localhost/status:8000` to check the application status.
+6. Send a POST request to `http://localhost/features:8000` with a JSON body containing the path to the data file and optional keywords to extract features.
+7. Receive the extracted feature matrix in the response.
 
 ## License
 
