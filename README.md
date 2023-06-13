@@ -45,7 +45,8 @@ Basically, this project is a link in the chain of a complete ML project and it p
     "endpoints": [
       "/",
       "/status",
-      "/features"
+      "/features_file",
+      "/features_json"
     ]
   }
   ```
