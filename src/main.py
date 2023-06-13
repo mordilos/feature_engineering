@@ -15,7 +15,7 @@ router = APIRouter()
 
 def init_logger():
     logger = logging.getLogger("feature engineering app")
-    logger.setLevel("DEBUG") # INFO, WARNING, CRITICAL, DEBUG, ERROR
+    logger.setLevel("DEBUG")  # INFO, WARNING, CRITICAL, DEBUG, ERROR
     handler = logging.StreamHandler()
     formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
     handler.setFormatter(formatter)
@@ -127,9 +127,9 @@ async def index():
     return {"endpoints": all_routes}
 
 
-@app.post("/features")
-async def create_features(file: UploadFile = File(...),
-                          feature_selection: Optional[List[str]] = Form(None)):
+@app.post("/features_file")
+async def create_features_file(file: UploadFile = File(...),
+                               feature_selection: Optional[List[str]] = Form(None)):
     logger.info(f"Create Features from given data.")
     logger.info(f"Started creating features...")
     logger.info(f"Feature Selection method requested: {feature_selection}")
@@ -162,11 +162,34 @@ async def create_features(file: UploadFile = File(...),
     return features_json
 
 
+@app.post("/features_json")
+async def create_features_json(data: UsersData,
+                               feature_selection: Optional[List[str]]):
+    logger.info(f"Create Features from given data.")
+    logger.info(f"Started creating features...")
+
+    if data is None:
+        logger.info(f"No data provided...")
+        raise HTTPException(status_code=400, detail="No data received")
+    logger.debug(f"Creating the customers dataframe")
+    customers_df = data.get_customer_df()
+    logger.debug(f"Creating the loans dataframe")
+    loans_df = data.get_loans_df()
+
+    logger.debug(f"Feature engineering step")
+    features_json = feature_eng(customers_df=customers_df,
+                                loans_df=loans_df,
+                                feature_selection=feature_selection)
+    logger.info(f"Created new features...")
+    return features_json
+
+
 @app.get("/status")
 async def status():
     logger.info(f"Get the status of the app")
     logger.info(f"status: UP")
     return {"status": "UP"}
+
 
 logger = init_logger()
 app.include_router(router)
