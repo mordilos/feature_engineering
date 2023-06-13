@@ -91,7 +91,8 @@ Basically, this project is a link in the chain of a complete ML project and it p
 3. Go to `http://localhost:8000/docs` for the built-in swagger documentation. From there you can test all the other endpoints.
 4. Send a GET request to `http://localhost:8000/` to get all available endpoints.
 5. Send a GET request to `http://localhost/status:8000` to check the application status.
-6. Send a POST request to `http://localhost/features:8000` with a JSON body containing the path to the data file and optional keywords to extract features.
+6. Send a POST request to `http://localhost/features:8000` with a JSON body containing the path to the data file and optional keywords to extract features.<br />
+    CLI example that uses all the feature selection algorithms:<br />`curl -X 'POST' \`<br />`'http://localhost:8000/features' \`<br />`-H 'accept: application/json' \`<br />`-H 'Content-Type: multipart/form-data' \`<br />`-F 'file=@cvas_data.json;type=application/json' \`<br />`-F 'feature_selection=highly_null_features,single_value_features,highly_correlated_features'`
 7. Receive the extracted feature matrix in the response.
 
 ## License
